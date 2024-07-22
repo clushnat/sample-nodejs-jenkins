@@ -1,0 +1,39 @@
+{
+  "name": "sample-nodejs-jenkins",
+  "version": "0.2.0",
+  "description": "A Node.js template using Express 4",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "api": "node scripts/generate-spec.js",
+    "test": "rm -f .sqlite/*; jest"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "js-yaml": "^4.1.0",
+    "supertest": "^7.0.0",
+    "swagger-jsdoc": "^6.2.8"
+  },
+  "engines": {
+    "node": "4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clushnat/sample-nodejs-jenkins"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "Changyu Seon",
+  "contributors": [
+    "Changyu Seon <cgseon@clush.net> (https://www.clush.net)"
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,37 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "sample-nodejs-glci"
+  description: "A simple Node.js service"
+  links:
+    - url: "http://localhost:30500"
+      title: "A simple Node.js service"
+      icon: dashboard
+  annotations:
+    gitlab.com/project-slug: "clushnat/sample-nodejs-glci"
+    argocd/app-name: "sample-nodejs-glci"
+    backstage.io/kubernetes-id: "sample-nodejs-glci"
+spec:
+  type: service
+  owner: "user:guest"
+  lifecycle: experimental
+  providesApis:
+    - sample-nodejs-glci
+  kubernetes:
+    selector:
+      matchLabels:
+        app: "sample-nodejs-glci"
+    namespace: sandbox
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: "sample-nodejs-glci"
+  description: "API for sample-nodejs-glci"
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: "user:guest"
+  definition:
+    $text: "./openapi.yaml"

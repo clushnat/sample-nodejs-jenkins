@@ -1,0 +1,16 @@
+# Service YAML
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nodejs-template-using-glci
+  namespace: sandbox
+  labels:
+    backstage.io/kubernetes-id: nodejs-template-using-glci
+spec:
+  selector:
+    app: nodejs-template-using-glci
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: NodePort

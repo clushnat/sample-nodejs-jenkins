@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-template-using-glci
+  namespace: sandbox
+  labels:
+    backstage.io/kubernetes-id: nodejs-template-using-glci
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodejs-template-using-glci
+  template:
+    metadata:
+      labels:
+        app: nodejs-template-using-glci
+        backstage.io/kubernetes-id: nodejs-template-using-glci
+    spec:
+      containers:
+        - name: nodejs-template-using-glci
+          image: seonchg/sample-nodejs-glci:main-6f44ded746468d33dc38d97a35c0240482fb3a53
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources:
+            limits:
+              cpu: 250m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 128Mi
