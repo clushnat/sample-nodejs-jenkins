@@ -78,7 +78,8 @@ podTemplate(label: 'jenkins-slave-pod',
     stage('Build Docker Image') {
       container('docker') {
         sh '''
-        docker build -t seonchg/sample-nodejs-demo:$IMAGE_TAG .
+        echo $IMAGE_TAG
+        docker build -t seonchg/sample-nodejs-jenkins:$IMAGE_TAG .
         '''
       }
     }
@@ -87,7 +88,7 @@ podTemplate(label: 'jenkins-slave-pod',
         withCredentials([secretText(credentialsId: 'dockerhub-token', variable: 'DOCKERHUB_TOKEN')]) {
           sh '''
           echo $DOCKERHUB_TOKEN | docker login --username seonchg --password-stdin
-          docker push seonchg/sample-nodejs-demo:$IMAGE_TAG
+          docker push seonchg/sample-nodejs-jenkins:$IMAGE_TAG
           '''
         }
 
