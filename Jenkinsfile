@@ -66,7 +66,7 @@ podTemplate(label: 'jenkins-slave-pod',
   node('jenkins-slave-pod') {
     stage('Checkout') {
       container('builder') {
-        withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+        withCredentials([usernamePassword(credentialsId: 'Github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
           sh '''
           git config --global user.name "jenkins"
           git config --global user.email "jenkins@clush.net"
