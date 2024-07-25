@@ -53,14 +53,8 @@ def IMAGE_TAG
 podTemplate(label: 'jenkins-slave-pod',
   containers: [
     containerTemplate(
-      name: 'git',
-      image: 'alpine/git',
-      command: 'cat',
-      ttyEnabled: true
-    ),
-    containerTemplate(
-      name: 'docker',
-      image: 'docker',
+      name: 'builder',
+      image: 'seonchg/clushnat-builder:latest',
       command: 'cat',
       ttyEnabled: true
     ),
@@ -71,17 +65,24 @@ podTemplate(label: 'jenkins-slave-pod',
 ) {
   node('jenkins-slave-pod') {
     stage('Checkout') {
-      container('git') {
-        checkout scm
-        script {
-          env.BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
-          env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
-          IMAGE_TAG = "${env.BRANCH_NAME}-${env.GIT_COMMIT}"
+      container('builder') {
+        withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+          sh '''
+          git config --global user.name "jenkins"
+          git config --global user.email "jenkins@clush.net"
+          '''
+
+          checkout scm
+          script {
+            env.BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+            env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+            IMAGE_TAG = "${env.BRANCH_NAME}-${env.GIT_COMMIT}"
+          }
         }
       }
     }
     stage('Build Docker Image') {
-      container('docker') {
+      container('builder') {
         sh '''
         echo $IMAGE_TAG
         docker build -t seonchg/sample-nodejs-jenkins:$IMAGE_TAG .
@@ -89,7 +90,7 @@ podTemplate(label: 'jenkins-slave-pod',
       }
     }
     stage('Push Docker Image') {
-      container('docker') {
+      container('builder') {
         withCredentials([secretText(credentialsId: 'dockerhub-token', variable: 'DOCKERHUB_TOKEN')]) {
           sh '''
           echo $DOCKERHUB_TOKEN | docker login --username seonchg --password-stdin
