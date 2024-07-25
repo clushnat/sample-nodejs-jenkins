@@ -78,9 +78,7 @@ podTemplate(label: 'jenkins-slave-pod',
     stage('Build Docker Image') {
       container('docker') {
         sh '''
-        docker build create --use
-        docker build inspect default --bootstrap
-        docker build build --file Dockerfile -t seonchg/sample-nodejs-demo:$IMAGE_TAG --load .
+        docker build -t seonchg/sample-nodejs-demo:$IMAGE_TAG .
         '''
       }
     }
