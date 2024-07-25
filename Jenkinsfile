@@ -70,6 +70,7 @@ podTemplate(label: 'jenkins-slave-pod',
           sh '''
           git config --global user.name "jenkins"
           git config --global user.email "jenkins@clush.net"
+          ls -al
           '''
 
           checkout scm
