@@ -70,7 +70,8 @@ podTemplate(label: 'jenkins-slave-pod',
           sh '''
           git config --global user.name "jenkins"
           git config --global user.email "jenkins@clush.net"
-          ls -al
+          git config --global --add safe.directory /home/jenkins/agent/workspace/sample-nodejs-jenkins
+          pwd
           '''
 
           checkout scm
