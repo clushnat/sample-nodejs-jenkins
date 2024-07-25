@@ -48,7 +48,7 @@
 //     }
 // }
 
-def IMAGE_TAG = "${env.BRANCH_NAME}-${env.GIT_COMMIT}"
+def IMAGE_TAG
 
 podTemplate(label: 'jenkins-slave-pod',
   containers: [
@@ -73,6 +73,11 @@ podTemplate(label: 'jenkins-slave-pod',
     stage('Checkout') {
       container('git') {
         checkout scm
+        script {
+          env.BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+          env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+          IMAGE_TAG = "${env.BRANCH_NAME}-${env.GIT_COMMIT}"
+        }
       }
     }
     stage('Build Docker Image') {
