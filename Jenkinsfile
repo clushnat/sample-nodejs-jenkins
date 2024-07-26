@@ -77,6 +77,7 @@ podTemplate(label: 'jenkins-slave-pod',
 
           sh '''
           pwd
+          ls -al
           git rev-parse --abbrev-ref HEAD
           git rev-parse HEAD
           '''
@@ -96,8 +97,8 @@ podTemplate(label: 'jenkins-slave-pod',
     stage('Build Docker Image') {
       container('builder') {
         sh '''
-        echo $IMAGE_TAG
-        docker build -t seonchg/sample-nodejs-jenkins:$IMAGE_TAG .
+        echo ${IMAGE_TAG}
+        docker build -t seonchg/sample-nodejs-jenkins:${IMAGE_TAG} .
         '''
       }
     }
@@ -105,8 +106,8 @@ podTemplate(label: 'jenkins-slave-pod',
       container('builder') {
         withCredentials([secretText(credentialsId: 'dockerhub-token', variable: 'DOCKERHUB_TOKEN')]) {
           sh '''
-          echo $DOCKERHUB_TOKEN | docker login --username seonchg --password-stdin
-          docker push seonchg/sample-nodejs-jenkins:$IMAGE_TAG
+          echo ${DOCKERHUB_TOKEN} | docker login --username seonchg --password-stdin
+          docker push seonchg/sample-nodejs-jenkins:${IMAGE_TAG}
           '''
         }
 
