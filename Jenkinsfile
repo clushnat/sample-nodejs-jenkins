@@ -89,6 +89,8 @@ podTemplate(label: 'jenkins-slave-pod',
             if (branchName == 'HEAD') {
                 // detached HEAD 상태일 경우, 브랜치 이름을 찾기 위한 추가 명령어 실행
                 branchName = sh(script: 'git name-rev --name-only HEAD', returnStdout: true).trim()
+                // 'remotes/origin/' 접두사를 제거
+                branchName = branchName.replaceFirst(/^remotes\/origin\//, '')
             }
             env.BRANCH_NAME = branchName
             echo "BRANCH_NAME: ${env.BRANCH_NAME}"
