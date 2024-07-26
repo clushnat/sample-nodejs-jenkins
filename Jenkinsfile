@@ -130,6 +130,7 @@ podTemplate(label: 'jenkins-slave-pod',
         yq eval '.spec.template.spec.containers[0].image = "seonchg/sample-nodejs-jenkins:${IMAGE_TAG}"' -i deployments/deployment.yml
         git add .
         git commit -m "updating newer image"
+        git checkout main
         git push --set-upstream origin main
         '''
       }
