@@ -106,7 +106,7 @@ podTemplate(label: 'jenkins-slave-pod',
     }
     stage('Push Docker Image') {
       container('builder') {
-        withCredentials([secretText(credentialsId: 'dockerhub-token', variable: 'DOCKERHUB_TOKEN')]) {
+        withCredentials([string(credentialsId: 'dockerhub-token', variable: 'DOCKERHUB_TOKEN')]) {
           sh '''
           echo ${DOCKERHUB_TOKEN} | docker login --username seonchg --password-stdin
           docker push seonchg/sample-nodejs-jenkins:${IMAGE_TAG}
