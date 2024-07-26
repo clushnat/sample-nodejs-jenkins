@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: nodejs-template-using-glci
-          image: seonchg/sample-nodejs-glci:main-6f44ded746468d33dc38d97a35c0240482fb3a53
+          image: seonchg/sample-nodejs-jenkins:${IMAGE_TAG}
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
