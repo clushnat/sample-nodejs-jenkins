@@ -48,7 +48,7 @@
 //     }
 // }
 
-def IMAGE_TAG
+
 
 podTemplate(label: 'jenkins-slave-pod',
   containers: [
@@ -64,6 +64,8 @@ podTemplate(label: 'jenkins-slave-pod',
   ]
 ) {
   node('jenkins-slave-pod') {
+    def IMAGE_TAG = "latest"
+
     stage('Checkout') {
       container('builder') {
         withCredentials([usernamePassword(credentialsId: 'Github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
