@@ -87,9 +87,9 @@ podTemplate(label: 'jenkins-slave-pod',
           script {
             env.BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
             env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
-            IMAGE_TAG = "${env.BRANCH_NAME}-${env.GIT_COMMIT}"
+            env.IMAGE_TAG = "${env.BRANCH_NAME}-${env.GIT_COMMIT}"
 
-            echo "IMAGE_TAG: $IMAGE_TAG"
+            echo "IMAGE_TAG: ${env.IMAGE_TAG}"
             echo "BRANCH_NAME: ${env.BRANCH_NAME}"
             echo "GIT_COMMIT: ${env.GIT_COMMIT}"
           }
