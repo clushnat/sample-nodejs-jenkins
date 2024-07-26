@@ -120,7 +120,6 @@ podTemplate(label: 'jenkins-slave-pod',
           docker push seonchg/sample-nodejs-jenkins:${IMAGE_TAG}
           '''
         }
-
       }
     }
     stage('Update Manifest File') {
@@ -131,9 +130,9 @@ podTemplate(label: 'jenkins-slave-pod',
         yq eval '.spec.template.spec.containers[0].image = "seonchg/sample-nodejs-jenkins:${IMAGE_TAG}"' -i deployments/deployment.yml
         git add .
         git commit -m "updating newer image"
-        git push --set-upstream origin master
+        git push --set-upstream origin main
         '''
-        }
+      }
     }
   }
 }
