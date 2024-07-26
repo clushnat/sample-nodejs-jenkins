@@ -1,37 +1,41 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: "sample-nodejs-glci"
+  name: "sample-nodejs-jenkins"
   description: "A simple Node.js service"
   links:
     - url: "http://localhost:30500"
       title: "A simple Node.js service"
       icon: dashboard
   annotations:
-    gitlab.com/project-slug: "clushnat/sample-nodejs-glci"
-    argocd/app-name: "sample-nodejs-glci"
-    backstage.io/kubernetes-id: "sample-nodejs-glci"
+    # github.com/project-slug: "clushnat/sample-nodejs-jenkins"
+    jenkins.io/github-folder: 'sample-nodejs-jenkins' # deprecated
+    jenkins.io/job-full-name: 'sample-nodejs-jenkins' # use this instead
+    argocd/app-name: "sample-nodejs-jenkins"
+    backstage.io/kubernetes-id: "sample-nodejs-jenkins"
+    jira.com/project-key: CLSH # The key of the Jira project to track for this entity
+    jira.com/incoming-issues-status: Incoming # The name of the status for incoming issues in Jira. Default: New
 spec:
   type: service
-  owner: "user:guest"
+  owner: "user:pakisto"
   lifecycle: experimental
   providesApis:
-    - sample-nodejs-glci
+    - sample-nodejs-jenkins
   kubernetes:
     selector:
       matchLabels:
-        app: "sample-nodejs-glci"
+        app: "sample-nodejs-jenkins"
     namespace: sandbox
 
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: "sample-nodejs-glci"
-  description: "API for sample-nodejs-glci"
+  name: "sample-nodejs-jenkins"
+  description: "API for sample-nodejs-jenkins"
 spec:
   type: openapi
   lifecycle: experimental
-  owner: "user:guest"
+  owner: "user:pakisto"
   definition:
     $text: "./openapi.yaml"
