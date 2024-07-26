@@ -85,7 +85,13 @@ podTemplate(label: 'jenkins-slave-pod',
           '''
 
           script {
-            env.BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+            def branchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+            if (branchName == 'HEAD') {
+                // detached HEAD 상태일 경우, 브랜치 이름을 찾기 위한 추가 명령어 실행
+                branchName = sh(script: 'git name-rev --name-only HEAD', returnStdout: true).trim()
+            }
+            env.BRANCH_NAME = branchName
+            echo "BRANCH_NAME: ${env.BRANCH_NAME}"
             env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
             env.IMAGE_TAG = "${env.BRANCH_NAME}-${env.GIT_COMMIT}"
 
